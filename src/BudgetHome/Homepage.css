@@ -1,0 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+.income_display {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 200px;
+    border-bottom: 1px solid lightgray;
+}
