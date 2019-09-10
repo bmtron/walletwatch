@@ -12,7 +12,8 @@ export default class Homepage extends Component {
             netIncome: 0,
             expenses: 0,
             netIncomeInput: '',
-            budgetItems: null
+            budgetItems: null,
+            dailyItemTotal: ''
         }
     }
     handleUpdateNetIncome = (e) => {
@@ -38,13 +39,22 @@ export default class Homepage extends Component {
         }
         return total;
     }
+    calculateDailyItemsMonthlyTotal(arr) {
+        let total= 0;
+        for (let i=0; i< arr.length; i++) {
+            total = total + (arr[i].price * arr[i].frequency * 4)
+        }
+        return total;
+    }
     componentDidMount() {
         let expenses = this.calculateExpenses(this.context.budgetItems)
+        let daily_total_monthly = this.calculateDailyItemsMonthlyTotal(this.context.dailyItems)
         this.setState({
             expenses: expenses,
             netIncome: this.context.netIncome,
             disposableIncome: this.context.disposableIncome,
-            budgetItems: this.context.budgetItems
+            budgetItems: this.context.budgetItems,
+            dailyItemTotal: daily_total_monthly
         })
     }
     render() {
@@ -53,7 +63,7 @@ export default class Homepage extends Component {
             <div>
                <nav>
                     <h2>Wallet Watch</h2>
-                    <section><p>Login</p></section>
+                    <section><p>Logout</p></section>
                 </nav>
                 <section className="income_display">
                     <section className="net_income">
@@ -67,11 +77,16 @@ export default class Homepage extends Component {
                     <section className="disposable_income">
                         <h2>Disposable Income</h2>
                         <p>${this.state.netIncome - this.state.expenses}</p>
+                        <p>Disposable Income Less Daily Expenses</p>
+                        <p>${this.state.netIncome - this.state.expenses - this.state.dailyItemTotal}</p>
+
+                        <h2>Total Daily Expenses Cost per Month</h2>
+                        <p>${this.state.dailyItemTotal}</p>
                     </section>
                 </section>
                 <section className="cat_header"><h2>Categories</h2></section>
                 <Link to='/add_item'><button>Add New Item</button></Link>
-                <button>Daily Expenditures</button>
+                <Link to="/daily_expense"><button>Daily Expenditures</button></Link>
                 <section className="budget_items">
                     {this.state.budgetItems == null ? null : this.state.budgetItems.map((item, index) => {
                         return <section key={index}>

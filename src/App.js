@@ -3,6 +3,7 @@ import { Route } from 'react-router';
 import LandingPage from './LandingPage/LandingPageForm';
 import Homepage from './BudgetHome/Homepage';
 import AddItem from './AddItems/AddItems';
+import DailyExpense from './DailyExpenses/DailyExpensesPage';
 import './App.css';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
         <Route exact path='/' component={LandingPage}/>
         <Route path='/budget' component={Homepage}/>
         <Route path='/add_item' component={AddItem}/>
+        <Route path='/daily_expense' component={DailyExpense}/>
       </div>
     );
   }
