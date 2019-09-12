@@ -71,7 +71,7 @@ export default class Homepage extends Component {
                         <p>${this.state.netIncome}</p>
                         <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
                             <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
-                            <button>Update Net Income</button>
+                            <button disabled={(this.state.netIncomeInput === '')}>Update Net Income</button>
                         </form>
                     </section>
                     <section className="disposable_income">
@@ -88,12 +88,26 @@ export default class Homepage extends Component {
                 <Link to='/add_item'><button>Add New Item</button></Link>
                 <Link to="/daily_expense"><button>Daily Expenditures</button></Link>
                 <section className="budget_items">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Budget Family</th>
+                                <th>Monthly Budget</th>
+                            </tr>
+                        </tbody>
                     {this.state.budgetItems == null ? null : this.state.budgetItems.map((item, index) => {
-                        return <section key={index}>
+                        return <tbody key={index}>
+                            <tr>
+                                <td>{item.name}</td>
+                                <td>{item.price}</td>
+                            </tr>
+                        </tbody>
+                        /*return <section key={index}>
                             <p>Name: {item.name}</p>
                             <p>Price: {item.price}</p>
-                        </section>
+                        </section>*/
                     })}
+                    </table>
                 </section>
             </div>
         )

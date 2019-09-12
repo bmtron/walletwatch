@@ -43,13 +43,26 @@ export default class ExpensesPage extends Component {
     deleteItemFromTable = (arr, index) => {
         arr.splice(index, 1)
     }
+    validateFormSubmit = () => {
+        if (this.state.itemName === '') {
+            return false;
+        }
+        else if (this.state.itemPrice === '') {
+            return false;
+        }
+        else if (this.state.frequency === '') {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     render(){
         console.log(this.context.dailyItems)
         return (
             <div>
                  <nav>
                     <h2>Wallet Watch</h2>
-                    <section><p>Logout</p></section>
                     <Link to='/budget'><section>Home</section></Link>
                 </nav>
                 <section className="header">
@@ -74,7 +87,7 @@ export default class ExpensesPage extends Component {
                         <option value="6">6</option>
                         <option value="7">7</option>
                     </select>
-                    <button type="submit">+</button>
+                    <button type="submit" disabled={!this.validateFormSubmit()}>+</button>
                 </form>
                 <table>
                     <tbody>
