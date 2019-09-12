@@ -10,8 +10,14 @@ export default class ExpensesPage extends Component {
         this.state = {
             itemName: '',
             itemPrice: '',
-            frequency: ''
+            frequency: '',
+            itemsArray: []
         }
+    }
+    componentDidMount() {
+        this.setState({
+            itemsArray: this.context.dailyItems
+        })
     }
     handleItemNameChange = (e) => {
         this.setState({
@@ -32,6 +38,12 @@ export default class ExpensesPage extends Component {
         e.preventDefault();
         console.log('clicked')
         this.context.dailyItems = [...this.context.dailyItems, {name: this.state.itemName, price: this.state.itemPrice, frequency: this.state.frequency}]
+        this.setState({
+            itemsArray: [...this.state.itemsArray, {name: this.state.itemName, price: this.state.itemPrice, frequency: this.state.frequency}],
+            itemName: '',
+            itemPrice: '',
+            frequency: ''
+        })
     }
     calculateWeeklyTotal(arr) {
         let total = 0;
@@ -78,7 +90,7 @@ export default class ExpensesPage extends Component {
                     <input className="daily_price" id="daily_price" type="number" value={this.state.itemPrice} onChange={(e) => this.handleItemPriceChange(e.target.value)}/>
                     <label htmlFor="frequency">Times Purchased Per Week</label>
                     <select onChange={(e) => this.handleFrequencyChange(e.target.value)}>
-                        <option defaultValue={null}>--Select a number--</option>
+                        <option value={''}>--Select a number--</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -101,7 +113,7 @@ export default class ExpensesPage extends Component {
                     </tbody>
                     {this.context.dailyItems.map((item, index) => {
                         return <tbody key={index}><tr>
-                            <td><button onClick={() => this.deleteItemFromTable(this.context.dailyItems, index)}>Delete</button>{item.name}</td>
+                            <td><button onClick={() => this.deleteItemFromTable(this.state.itemsArray, index)}>Delete</button>{item.name}</td>
                             <td>{item.frequency} days/wk</td>
                             <td>${parseFloat(item.price).toFixed(2)}</td>
                             <td>${(item.price * item.frequency).toFixed(2)}</td>

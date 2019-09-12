@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "alias": "bmmeehan3-walletwatch",
+    "name": "walletwatch",
+    "routes": [
+        {
+          "src": "^/static/(.*)",
+          "dest": "/static/$1"
+        },
+        {
+          "src": ".*",
+          "dest": "/index.html"
+        }
+    ]
+  }
