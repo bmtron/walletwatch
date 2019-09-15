@@ -15,8 +15,27 @@ export default class ExpensesPage extends Component {
         }
     }
     componentDidMount() {
-        this.setState({
-            itemsArray: this.context.dailyItems
+        let url = `http://localhost:8000/api/daily_items/${sessionStorage.getItem('user')}`
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (!res.ok){
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            console.log(resJson)
+            this.setState({
+                itemsArray: resJson
+            })
+        })
+        .catch(e => {
+            console.log(e)
         })
     }
     handleItemNameChange = (e) => {
@@ -36,13 +55,39 @@ export default class ExpensesPage extends Component {
     }
     handleDailyFormSubmit = (e) => {
         e.preventDefault();
-        console.log('clicked')
-        this.context.dailyItems = [...this.context.dailyItems, {name: this.state.itemName, price: this.state.itemPrice, frequency: this.state.frequency}]
-        this.setState({
-            itemsArray: [...this.state.itemsArray, {name: this.state.itemName, price: this.state.itemPrice, frequency: this.state.frequency}],
-            itemName: '',
-            itemPrice: '',
-            frequency: ''
+        console.log('click')
+        let url = `http://localhost:8000/api/daily_items`;
+        let item = {
+            item_name: this.state.itemName,
+            user_name: sessionStorage.getItem('user'),
+            price: parseFloat(this.state.itemPrice, 2),
+            frequency: this.state.frequency
+        }
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            console.log(resJson)
+            this.setState({
+                itemsArray: [...this.state.itemsArray, {item_name: resJson.item_name, price: resJson.price, frequency: resJson.frequency, id: resJson.id}],
+                itemName: '',
+                itemPrice: '',
+                frequency: ''
+            })
+            this.context.dailyItems = [...this.context.dailyItems, {item_name: resJson.item_name, price: resJson.price, frequency: resJson.frequency, id: resJson.id}]
+        })
+        .catch(e => {
+            console.log(e)
         })
     }
     calculateWeeklyTotal(arr) {
@@ -52,8 +97,31 @@ export default class ExpensesPage extends Component {
         }
         return total;
     }
-    deleteItemFromTable = (arr, index) => {
-        arr.splice(index, 1)
+    deleteDailyItem = (id) => {
+        let arr = this.state.itemsArray
+        for(let i = 0; i < arr.length; i++) {
+            if (arr[i].id === id) {
+                arr.splice(i, 1)
+            }
+        }
+        this.setState({
+            budgetItems: arr
+        })
+        let url = `http://localhost:8000/api/daily_items/${id}`
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
     validateFormSubmit = () => {
         if (this.state.itemName === '') {
@@ -70,7 +138,7 @@ export default class ExpensesPage extends Component {
         }
     }
     render(){
-        console.log(this.context.dailyItems)
+        console.log(this.state.itemsArray)
         return (
             <div>
                  <nav>
@@ -111,9 +179,9 @@ export default class ExpensesPage extends Component {
                             <th>Monthly Cost</th>
                         </tr>
                     </tbody>
-                    {this.context.dailyItems.map((item, index) => {
-                        return <tbody key={index}><tr>
-                            <td><button onClick={() => this.deleteItemFromTable(this.state.itemsArray, index)}>Delete</button>{item.name}</td>
+                    {this.state.itemsArray.map((item, index) => {
+                        return <tbody key={item.id}><tr>
+                            <td><button onClick={() => this.deleteDailyItem(item.id)}>Delete</button>{item.item_name}</td>
                             <td>{item.frequency} days/wk</td>
                             <td>${parseFloat(item.price).toFixed(2)}</td>
                             <td>${(item.price * item.frequency).toFixed(2)}</td>
@@ -121,13 +189,13 @@ export default class ExpensesPage extends Component {
                         </tr>
                         </tbody>
                     })}
-                    {!this.context.dailyItems.length ? null : <tbody>
+                    {!this.state.itemsArray.length ? null : <tbody>
                         <tr>
                             <th>Totals</th>
                             <th></th>
                             <th></th>
-                            <th>${(this.calculateWeeklyTotal(this.context.dailyItems)).toFixed(2)}</th>
-                            <th>${(this.calculateWeeklyTotal(this.context.dailyItems) * 4).toFixed(2)}</th>
+                            <th>${(this.calculateWeeklyTotal(this.state.itemsArray)).toFixed(2)}</th>
+                            <th>${(this.calculateWeeklyTotal(this.state.itemsArray) * 4).toFixed(2)}</th>
                         </tr>
                     </tbody>}
                 </table>

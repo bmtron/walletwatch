@@ -23,8 +23,37 @@ export default class AddItem extends Component {
     
     handleAddItem = (e) =>{
         e.preventDefault();
-        this.context.budgetItems = [...this.context.budgetItems, {name: this.state.name, price: this.state.price}]
-        this.props.history.push('/budget')
+        let user = sessionStorage.getItem('user')
+        let newItem = {
+            category: this.state.name,
+            amount: this.state.price,
+            user_name: user
+        }
+        let url = `http://localhost:8000/api/budget_items/`
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newItem)
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            this.setState({
+                name: '',
+                amount: ''
+            })
+            console.log(resJson)
+            this.props.history.push('/budget')
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
     render() {
         return (

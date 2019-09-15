@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ValidationError from '../Utils/ValidationError';
+import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import TokenService from '../Services/TokenService';
 
 export default class LandingPage extends Component {
     constructor(props) {
@@ -8,19 +10,20 @@ export default class LandingPage extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            email: '',
+            user: '',
             pass: '',
             repeatPass: '',
+            error: null,
             validationMessages: {
                 firstName: '',
                 lastName: '',
-                email: '',
+                user: '',
                 pass: '',
                 repeatPass: ''
             },
             firstNameValid: false,
             lastNameValid: false,
-            emailValid: false,
+            userValid: false,
             passValid: false,
             repeatPassValid: false,
             formValid: false,
@@ -28,7 +31,7 @@ export default class LandingPage extends Component {
         }
     }
     formValid() {
-        let valid = this.state.firstNameValid && this.state.lastNameValid && this.state.emailValid && this.state.passValid && this.state.repeatPassValid
+        let valid = this.state.firstNameValid && this.state.lastNameValid && this.state.userValid && this.state.passValid && this.state.repeatPassValid
         this.setState({
             formValid: valid
         })
@@ -71,23 +74,23 @@ export default class LandingPage extends Component {
             lastNameValid: !hasError
         }, this.formValid)
     }
-    validateEmail(fieldValue) {
+    validateUser(fieldValue) {
         const fieldErrors = {...this.state.validationMessages};
         let hasError = false;
 
-        const email = fieldValue.trim();
+        const user = fieldValue.trim();
 
-        if (email.length === 0) {
-            fieldErrors.email= 'Email is required.';
+        if (user.length === 0) {
+            fieldErrors.user= 'Username is required.';
             hasError = true;
         }
         else {
-            fieldErrors.email= '';
+            fieldErrors.user= '';
             hasError = false;
         }
         this.setState({
             validationMessages: fieldErrors,
-            emailValid: !hasError
+            userValid: !hasError
         }, this.formValid)
     }
     validatePassword(fieldValue) {
@@ -139,8 +142,8 @@ export default class LandingPage extends Component {
     handleLastNameChange = (lastName) => {
         this.setState({lastName}, () => {this.validateLastName(lastName)})
     }
-    handleEmailChange = (email) => {
-       this.setState({email}, () => {this.validateEmail(email)})
+    handleUserChange = (user) => {
+       this.setState({user}, () => {this.validateUser(user)})
     }
     handlePasswordChange = (pass) => {
         this.setState({pass}, () => {this.validatePassword(pass)})
@@ -150,24 +153,46 @@ export default class LandingPage extends Component {
     }
     handleSignupSubmit = (e) => {
         e.preventDefault();
-        console.log('submit')
-        this.setState({
-            submitdata: {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.pass,
-                repeatPass: this.state.repeatPass
-            }
+        const user = {
+            user_name: this.state.user,
+            password: this.state.pass,
+            first_name: this.state.firstName,
+            last_name: this.state.lastName
+        }
+        fetch('http://localhost:8000/api/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
         })
-       this.props.history.push('/budget')
+        .then(res => 
+            (!res.ok)
+                ? res.json().then(e => Promise.reject(e))
+                : res.json()
+            )
+        .then(user => {
+            window.sessionStorage.setItem('user', this.state.user)
+            this.setState({
+                user: '',
+                pass: '',
+                repeatPass: '',
+                first_name: '',
+                lastname: ''
+            })
+            TokenService.saveAuthToken(user.authToken)
+            this.props.history.push('/budget')
+        })
+        .catch(res => {
+            this.setState({error: res.error})
+        })
     }
     render() {
         return(
             <div>
                 <nav>
                     <h2>Wallet Watch</h2>
-                    <section><p>Login</p></section>
+                    <section><Link to='/login'>Login</Link></section>
                 </nav>
                 <section className="hero">
                     <h1>WalletWatch</h1>
@@ -211,10 +236,10 @@ export default class LandingPage extends Component {
                             <input className="lastName" id="lastName" type="text" onChange={(e) => this.handleLastNameChange(e.target.value)} defaultValue=""/>
                             <ValidationError hasError={!this.state.lastNameValid} message={this.state.validationMessages.lastName}/>
                         </section>
-                        <section className="email_container">
-                            <label className="email">Email</label>
-                            <input className="email" id="email" type="text" onChange={(e) => this.handleEmailChange(e.target.value)} defaultValue=""/>
-                            <ValidationError hasError={!this.state.emailValid} message={this.state.validationMessages.email}/>
+                        <section className="user_container">
+                            <label className="user">Username</label>
+                            <input className="user" id="user" type="text" onChange={(e) => this.handleUserChange(e.target.value)} defaultValue=""/>
+                            <ValidationError hasError={!this.state.userValid} message={this.state.validationMessages.User}/>
                         </section>
                         <section className="Password_container">
                             <label className="pass">Password</label>

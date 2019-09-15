@@ -10,7 +10,7 @@ export default class LandingPage extends Component {
 
     handleRegistrationSuccess = () => {
         const {history} = this.props
-        history.push('/budget')
+        this.props.history.push('/budget')
     }
     render() {
         return (

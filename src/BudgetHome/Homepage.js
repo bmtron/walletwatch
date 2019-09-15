@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Homepage.css';
 import {Link} from 'react-router-dom';
 import BudgetContext from '../Utils/BudgetContext';
+import LogoutButton from '../Utils/LogoutButton';
 
 export default class Homepage extends Component {
     static contextType = BudgetContext;
@@ -13,7 +14,8 @@ export default class Homepage extends Component {
             expenses: 0,
             netIncomeInput: '',
             budgetItems: null,
-            dailyItemTotal: ''
+            dailyItemTotal: 0,
+            incomeId: ''
         }
     }
     handleUpdateNetIncome = (e) => {
@@ -21,19 +23,75 @@ export default class Homepage extends Component {
             netIncomeInput: e
         })
     }
-    submitUpdateNetIncome = (e) => {
+    submitAddNetIncome = (e) => {
         e.preventDefault();
-        this.setState({
-            netIncome: this.state.netIncomeInput,
-            netIncomeInput: ''
+        let user = sessionStorage.getItem('user')
+        let income = {
+            user_name: user,
+            amount: this.state.netIncomeInput
+        }
+        console.log(income)
+        let url = `http://localhost:8000/api/net_income`
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(income)
         })
-        this.context.netIncome = this.state.netIncomeInput
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            console.log(resJson)
+            this.setState({
+                netIncome: resJson.amount,
+                netIncomeInput: '',
+                incomeId: resJson.id
+            })
+        })
+        .catch(e => {
+            console.log(e)
+        })
+    }
+    submitUpdateNetIncome = (e) => {
+        e.preventDefault()
+        let id = this.state.incomeId;
+        console.log(id)
+        let item = {
+            amount: this.state.netIncomeInput
+        }
+        let url = `http://localhost:8000/api/net_income/${id}`
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+        })
+        .then(resJson => {
+            this.setState({
+                netIncome: this.state.netIncomeInput,
+                netIncomeInput: '',
+            })
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
     calculateExpenses(arr) {
         let total = 0;
         
         for (let i = 0; i < arr.length; i++) {
-            let strToInt = parseInt(arr[i].price, 10)
+            let strToInt = parseInt(arr[i].amount, 10)
             total = total + strToInt;
             console.log(total)
         }
@@ -47,23 +105,119 @@ export default class Homepage extends Component {
         return total;
     }
     componentDidMount() {
-        let expenses = this.calculateExpenses(this.context.budgetItems)
-        let daily_total_monthly = this.calculateDailyItemsMonthlyTotal(this.context.dailyItems)
-        this.setState({
-            expenses: expenses,
-            netIncome: this.context.netIncome,
-            disposableIncome: this.context.disposableIncome,
-            budgetItems: this.context.budgetItems,
-            dailyItemTotal: daily_total_monthly
+        let user = sessionStorage.getItem('user')
+        let url = `http://localhost:8000/api/budget_items/${user}`
+        console.log(url)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            let expenses = this.calculateExpenses(resJson)
+            this.setState({
+                budgetItems: resJson,
+                expenses: expenses
+            })
+        })
+        .catch(e => {
+            console.log(e)
+        })
+        let incomeUrl = `http://localhost:8000/api/net_income/${user}`
+        fetch(incomeUrl, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            console.log(resJson)
+            this.setState({
+                netIncome: resJson[0].amount,
+                incomeId: resJson[0].id
+            })
+        }).catch(e => {
+            console.log(e)
+        })
+        let dailyUrl = `http://localhost:8000/api/daily_items/${sessionStorage.getItem('user')}`
+        fetch(dailyUrl, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (!res.ok){
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            console.log(resJson)
+            this.setState({
+                dailyItemTotal: this.calculateDailyItemsMonthlyTotal(resJson)
+            })
+        })
+        .catch(e => {
+            console.log(e)
         })
     }
+    deleteMonthlyItem = (id) => {
+        let arr = this.state.budgetItems
+        for(let i = 0; i < arr.length; i++) {
+            if (arr[i].id === id) {
+                arr.splice(i, 1)
+            }
+        }
+        this.setState({
+            budgetItems: arr
+        })
+        let user = sessionStorage.getItem('user')
+        let url = `http://localhost:8000/api/budget_items/${user}/${id}`
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+        })
+        .then(resJson => {
+            let expenses = this.calculateExpenses(this.state.budgetItems)
+            this.setState({
+                expenses: expenses
+            })
+        })
+        .catch(e => {
+            console.log(e)
+        })
+    }
+    handleLogout = () => {
+        sessionStorage.clear();
+        this.props.history.push('/budget')
+    }
     render() {
-        console.log(this.state.budgetItems)
         return (
             <div>
                <nav>
                     <h2>Wallet Watch</h2>
-                    <section><p>Logout</p></section>
+                    <section><LogoutButton handleLogout={this.handleLogout}/></section>
                 </nav>
                 <section className="income_display">
                     <section className="net_income">
@@ -71,17 +225,19 @@ export default class Homepage extends Component {
                         <p>${this.state.netIncome}</p>
                         <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
                             <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
-                            <button disabled={(this.state.netIncomeInput === '')}>Update Net Income</button>
+                            {this.state.netIncome === 0 ? <button onClick={(e) => this.submitAddNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Add Net Income</button> 
+                                : <button onClick={(e) => this.submitUpdateNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Update Net Income</button>}
                         </form>
+                    </section>
+                    <section>
+                        <h2>Total Daily Expenses Cost per Month</h2>
+                        <p>${parseFloat(this.state.dailyItemTotal).toFixed(2)}</p>
                     </section>
                     <section className="disposable_income">
                         <h2>Disposable Income</h2>
-                        <p>${this.state.netIncome - this.state.expenses}</p>
+                        <p>${parseFloat(this.state.netIncome - this.state.expenses).toFixed(2)}</p>
                         <p>Disposable Income Less Daily Expenses</p>
-                        <p>${this.state.netIncome - this.state.expenses - this.state.dailyItemTotal}</p>
-
-                        <h2>Total Daily Expenses Cost per Month</h2>
-                        <p>${this.state.dailyItemTotal}</p>
+                        <p>${parseFloat(this.state.netIncome - this.state.expenses - this.state.dailyItemTotal).toFixed(2)}</p>
                     </section>
                 </section>
                 <section className="cat_header"><h2>Categories</h2></section>
@@ -96,16 +252,15 @@ export default class Homepage extends Component {
                             </tr>
                         </tbody>
                     {this.state.budgetItems == null ? null : this.state.budgetItems.map((item, index) => {
-                        return <tbody key={index}>
+                        return <tbody key={item.id}>
                             <tr>
-                                <td>{item.name}</td>
-                                <td>{item.price}</td>
+                                <td>
+                                    <button onClick={() => this.deleteMonthlyItem(item.id)}>X</button>
+                                    {item.category}
+                                </td>
+                                <td>${parseFloat(item.amount).toFixed(2)}</td>
                             </tr>
                         </tbody>
-                        /*return <section key={index}>
-                            <p>Name: {item.name}</p>
-                            <p>Price: {item.price}</p>
-                        </section>*/
                     })}
                     </table>
                 </section>
