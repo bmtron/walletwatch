@@ -182,7 +182,7 @@ export default class ExpensesPage extends Component {
                     <label htmlFor="daily_item">Item Name</label>
                     <input className="daily_item" id="daily_item" type="text" value={this.state.itemName} onChange={(e) => this.handleItemNameChange(e.target.value)}/>
                     <label htmlFor="daily_price">Price</label>
-                    <input className="daily_price" id="daily_price" type="number" value={this.state.itemPrice} onChange={(e) => this.handleItemPriceChange(e.target.value)}/>
+                    <input className="daily_price" id="daily_price" step="any" type="number" value={this.state.itemPrice} onChange={(e) => this.handleItemPriceChange(e.target.value)}/>
                     <label htmlFor="frequency">Times Purchased Per Week</label>
                     <select onChange={(e) => this.handleFrequencyChange(e.target.value)}>
                         <option value={''}>--Select a number--</option>
