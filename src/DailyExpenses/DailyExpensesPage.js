@@ -42,7 +42,7 @@ export default class ExpensesPage extends Component {
         })
     }
     getUserDailyData() {
-        let url = `${config.API_ENDPOINT}daily_items/${sessionStorage.getItem('user')}`
+        let url = `${config.API_ENDPOINT}/daily_items/${sessionStorage.getItem('user')}`
         fetch(url, {
             method: 'GET',
             headers: {
