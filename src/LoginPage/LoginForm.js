@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TokenService from '../Services/TokenService';
+import config from '../config';
 import { Link } from 'react-router-dom'
 
 
@@ -15,7 +16,7 @@ export default class LoginForm extends Component {
             password: user_pass.value
         }
         
-        fetch('http://localhost:8000/api/login', {
+        fetch(`${config.API_ENDPOINT}/login`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

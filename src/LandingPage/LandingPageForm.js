@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ValidationError from '../Utils/ValidationError';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
+import config from '../config';
 import TokenService from '../Services/TokenService';
 
 export default class LandingPage extends Component {
@@ -159,7 +160,7 @@ export default class LandingPage extends Component {
             first_name: this.state.firstName,
             last_name: this.state.lastName
         }
-        fetch('http://localhost:8000/api/users', {
+        fetch(`${config.API_ENDPOINT}/users`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -188,6 +189,7 @@ export default class LandingPage extends Component {
         })
     }
     render() {
+        console.log(this.state.validationMessages)
         return(
             <div>
                 <nav>
@@ -230,26 +232,30 @@ export default class LandingPage extends Component {
                             <label className="firstName">First Name</label>
                             <input className='firstName' id="firstName" type="text" onChange={(e) => this.handleFirstNameChange(e.target.value)} defaultValue=""/>
                             <ValidationError hasError={!this.state.firstNameValid} message={this.state.validationMessages.firstName}/>
+                            {this.state.error === null ? null : <p>{this.state.error}</p>}
                         </section>
                         <section className="last_name_container">
                             <label className="lastName">Last Name</label>
                             <input className="lastName" id="lastName" type="text" onChange={(e) => this.handleLastNameChange(e.target.value)} defaultValue=""/>
                             <ValidationError hasError={!this.state.lastNameValid} message={this.state.validationMessages.lastName}/>
+                            {this.state.error === null ? null : <p>{this.state.error}</p>}
                         </section>
                         <section className="user_container">
                             <label className="user">Username</label>
                             <input className="user" id="user" type="text" onChange={(e) => this.handleUserChange(e.target.value)} defaultValue=""/>
-                            <ValidationError hasError={!this.state.userValid} message={this.state.validationMessages.User}/>
+                            <ValidationError hasError={!this.state.userValid} message={this.state.validationMessages.user}/>
+                            {this.state.error === null ? null : <p>{this.state.error}</p>}
                         </section>
                         <section className="Password_container">
                             <label className="pass">Password</label>
                             <input className="pass" id="pass" type="password" onChange={(e) => this.handlePasswordChange(e.target.value)} defaultValue=""/>
-                            <ValidationError hasError={!this.state.passValid} message={this.state.validationMessages.pass} />
+                            <ValidationError hasError={!this.state.passValid} message={this.state.validationMessages.password} />
+                            {this.state.error === null ? null : <p>{this.state.error}</p>}
                         </section>
                         <section className="repeatPass">
                             <label className="rPass">Repeat Password</label>
                             <input className="rPass" id="rPass" type="password" onChange={(e) => this.handleRepeatPassChange(e.target.value)} defaultValue=""/>
-                            <ValidationError hasError={!this.state.repeatPassValid} message={this.state.validationMessages.repeatPass} />
+                            <ValidationError hasError={!this.state.repeatPassValid} message={this.state.validationMessages.repeatPassword} />
                         </section>
                         <button type="submit" disabled={!this.state.formValid}>Sign Up</button>
                     </form> 

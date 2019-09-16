@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Homepage.css';
 import {Link} from 'react-router-dom';
+import config from '../config';
 import BudgetContext from '../Utils/BudgetContext';
 import LogoutButton from '../Utils/LogoutButton';
 
@@ -15,7 +16,8 @@ export default class Homepage extends Component {
             netIncomeInput: '',
             budgetItems: null,
             dailyItemTotal: 0,
-            incomeId: ''
+            incomeId: '',
+            authError: false,
         }
     }
     handleUpdateNetIncome = (e) => {
@@ -31,7 +33,7 @@ export default class Homepage extends Component {
             amount: this.state.netIncomeInput
         }
         console.log(income)
-        let url = `http://localhost:8000/api/net_income`
+        let url = `${config.API_ENDPOINT}/net_income`
         fetch(url, {
             method: 'POST',
             headers: {
@@ -64,7 +66,7 @@ export default class Homepage extends Component {
         let item = {
             amount: this.state.netIncomeInput
         }
-        let url = `http://localhost:8000/api/net_income/${id}`
+        let url = `${config.API_ENDPOINT}/net_income/${id}`
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -104,9 +106,9 @@ export default class Homepage extends Component {
         }
         return total;
     }
-    componentDidMount() {
+    getUserData() {
         let user = sessionStorage.getItem('user')
-        let url = `http://localhost:8000/api/budget_items/${user}`
+        let url = `${config.API_ENDPOINT}/budget_items/${user}`
         console.log(url)
         fetch(url, {
             method: 'GET',
@@ -130,7 +132,7 @@ export default class Homepage extends Component {
         .catch(e => {
             console.log(e)
         })
-        let incomeUrl = `http://localhost:8000/api/net_income/${user}`
+        let incomeUrl = `${config.API_ENDPOINT}/net_income/${user}`
         fetch(incomeUrl, {
             method: 'GET',
             headers: {
@@ -152,7 +154,7 @@ export default class Homepage extends Component {
         }).catch(e => {
             console.log(e)
         })
-        let dailyUrl = `http://localhost:8000/api/daily_items/${sessionStorage.getItem('user')}`
+        let dailyUrl = `${config.API_ENDPOINT}/daily_items/${sessionStorage.getItem('user')}`
         fetch(dailyUrl, {
             method: 'GET',
             headers: {
@@ -175,6 +177,35 @@ export default class Homepage extends Component {
             console.log(e)
         })
     }
+    componentDidMount() {
+        let token = sessionStorage.getItem('walletwatch-client-auth-token')
+        let authToken = {
+            authToken: token
+        }
+        fetch(`${config.API_ENDPOINT}/auth`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(authToken)
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            this.getUserData()
+        })
+        .catch(error => {
+            console.error(error)
+            this.props.history.push('/error')
+        })
+        //this.getUserData()
+
+        
+    }
     deleteMonthlyItem = (id) => {
         let arr = this.state.budgetItems
         for(let i = 0; i < arr.length; i++) {
@@ -186,7 +217,7 @@ export default class Homepage extends Component {
             budgetItems: arr
         })
         let user = sessionStorage.getItem('user')
-        let url = `http://localhost:8000/api/budget_items/${user}/${id}`
+        let url = `${config.API_ENDPOINT}/budget_items/${user}/${id}`
         fetch(url, {
             method: 'DELETE',
             headers: {
@@ -213,6 +244,7 @@ export default class Homepage extends Component {
         this.props.history.push('/budget')
     }
     render() {
+        console.log(this.state.authError)
         return (
             <div>
                <nav>

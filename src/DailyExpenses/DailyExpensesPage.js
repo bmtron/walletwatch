@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './DailyExpensesPage.css';
 import { Link } from 'react-router-dom';
 import BudgetContext from '../Utils/BudgetContext';
+import config from '../config'
 
 export default class ExpensesPage extends Component {
     static contextType = BudgetContext;
@@ -15,7 +16,33 @@ export default class ExpensesPage extends Component {
         }
     }
     componentDidMount() {
-        let url = `http://localhost:8000/api/daily_items/${sessionStorage.getItem('user')}`
+        let token = sessionStorage.getItem('walletwatch-client-auth-token')
+        let authToken = {
+            authToken: token
+        }
+        fetch(`${config.API_ENDPOINT}/auth`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(authToken)
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .then(resJson => {
+            this.getUserDailyData()
+        })
+        .catch(error => {
+            console.error(error)
+            this.props.history.push('/error')
+        })
+    }
+    getUserDailyData() {
+        let url = `${config.API_ENDPOINT}daily_items/${sessionStorage.getItem('user')}`
         fetch(url, {
             method: 'GET',
             headers: {
@@ -56,7 +83,7 @@ export default class ExpensesPage extends Component {
     handleDailyFormSubmit = (e) => {
         e.preventDefault();
         console.log('click')
-        let url = `http://localhost:8000/api/daily_items`;
+        let url = `${config.API_ENDPOINT}/daily_items`;
         let item = {
             item_name: this.state.itemName,
             user_name: sessionStorage.getItem('user'),
@@ -107,7 +134,7 @@ export default class ExpensesPage extends Component {
         this.setState({
             budgetItems: arr
         })
-        let url = `http://localhost:8000/api/daily_items/${id}`
+        let url = `${config.API_ENDPOINT}/daily_items/${id}`
         fetch(url, {
             method: 'DELETE',
             headers: {

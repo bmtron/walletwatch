@@ -1,4 +1,4 @@
 export default {
-    API_ENDPOINT: 'http://localhost:8000',
-    TOKEN_KEY: 'youtube-client-auth-token'
+    API_ENDPOINT: 'https://ancient-wildwood-78146.herokuapp.com/api',
+    TOKEN_KEY: 'walletwatch-client-auth-token'
 }

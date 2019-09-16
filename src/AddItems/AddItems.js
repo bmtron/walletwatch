@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BudgetContext from '../Utils/BudgetContext';
 import {Link} from 'react-router-dom';
+import config from '../config';
 export default class AddItem extends Component {
     static contextType = BudgetContext;
     constructor(props) {
@@ -20,7 +21,29 @@ export default class AddItem extends Component {
             price: e
         })
     }
-    
+    componentDidMount() {
+        let token = sessionStorage.getItem('walletwatch-client-auth-token')
+        let authToken = {
+            authToken: token
+        }
+        fetch(`${config.API_ENDPOINT}/auth`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(authToken)
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(e => Promise.reject(e))
+            }
+            return res.json()
+        })
+        .catch(error => {
+            console.error(error)
+            this.props.history.push('/error')
+        })
+    }
     handleAddItem = (e) =>{
         e.preventDefault();
         let user = sessionStorage.getItem('user')
@@ -29,7 +52,7 @@ export default class AddItem extends Component {
             amount: this.state.price,
             user_name: user
         }
-        let url = `http://localhost:8000/api/budget_items/`
+        let url = `${config.API_ENDPOINT}/budget_items`
         fetch(url, {
             method: 'POST',
             headers: {

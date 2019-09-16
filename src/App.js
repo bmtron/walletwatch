@@ -5,7 +5,9 @@ import LandingPage from './LandingPage/LandingPageForm';
 import Homepage from './BudgetHome/Homepage';
 import AddItem from './AddItems/AddItems';
 import DailyExpense from './DailyExpenses/DailyExpensesPage';
+import ErrorPage from './Error/ErrorPage';
 import LoginPage from './LoginPage/LoginPage';
+import {Route} from 'react-router-dom';
 import './App.css';
 
 class App extends Component {
@@ -18,11 +20,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <PublicRoute exact path='/' component={LandingPage}/>
-        <PublicRoute path='/login' component={LoginPage}/>
+        <Route exact path='/' component={LandingPage}/>
+        <Route path='/login' component={LoginPage}/>
         <PrivateRoute path='/budget' component={Homepage}/>
         <PrivateRoute path='/add_item' component={AddItem}/>
         <PrivateRoute path='/daily_expense' component={DailyExpense}/>
+        <Route path='/error' component={ErrorPage}/>
       </div>
     );
   }
