@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TokenService from '../Services/TokenService';
 import config from '../config';
 import { Link } from 'react-router-dom'
+import './Login.css';
 
 
 export default class LoginForm extends Component {
@@ -43,24 +44,30 @@ export default class LoginForm extends Component {
 
         return (
             <div className="Login_form">
-                <nav>
-                    <h2 className="login_h2">WalletWatch</h2>
-                </nav>
-                <h2 className="login_title">Log In To WalletWatch!</h2>
-                <section className="login_container">
-                    <form className="login_form" onSubmit={this.handleSubmitJwtAuth}>
+                <section className="login_page_wrap">
 
-                        <label htmlFor="user_name">User Name</label>
-                        <input name="user_name" id="user_name" type="text" />
-
-                        <label htmlFor="user_pass">Password</label>
-                        <input name="user_pass" id="user_pass" type="password" />
-
-                        <button className="login_submit" type="submit">Log In</button>
-                        {this.state.error !== null ? <p className="error">{this.state.error}</p> : <p></p>}
-                        <p className="register_p">Don't have an account? Click below to register!</p>
-                        <Link to='/'><button className="register_link">Register Account</button></Link>
-                    </form>
+                    <section className="login_form_container">
+                        <section className="login_form_title">
+                            <p>Log in to WalletWatch</p>
+                        </section>
+                        <form className="login_form" onSubmit={this.handleSubmitJwtAuth}>
+                            <section className="user_name_container">
+                                <label htmlFor="user_name" className="username_label_login">Username</label>
+                                <input className="login_username_input" name="user_name" id="user_name" type="text" />
+                            </section>
+                            <section className="login_pass_container">
+                                <label htmlFor="user_pass" className="pass_label_login">Password</label>
+                                <input className="login_pass_input" name="user_pass" id="user_pass" type="password" />
+                            </section>
+                            {this.state.error !== null ? <p className="error">{this.state.error}</p> : null}
+                            <section className="register_container">
+                                <Link to='/' className="register_link">Register Account</Link>
+                            </section>
+                            <section className="login_button_container">
+                                <button className="login_submit" type="submit">Log In</button>
+                            </section>
+                        </form>
+                    </section>
                 </section>
             </div>
         )

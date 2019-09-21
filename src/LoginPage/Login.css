@@ -1,0 +1,146 @@
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+  }
+.login_page_wrap {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #DEE5E5;
+}
+input {
+    outline: none;
+    border: none;
+}
+.login_form_container {
+    width: 670px;
+    border-radius: 10px; 
+    overflow: hidden;
+    position: relative;
+}
+.login_form_title {
+    background-image: url('https://i.imgur.com/bcL1tct.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    padding: 70px 15px 74px 15px;
+    z-index: 1;
+    position: relative;
+    
+}
+.login_form_title::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgb(31,45,34, 0.7);
+}
+.login_form_title p{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #DEE5E5;
+    font-size: 22px;
+}
+.login_form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 43px 88px 93px 190px;
+    width: 100%;
+    background-color: white;
+}
+.user_name_container {
+    position: relative;
+    margin-bottom: 26px;
+    width: 100%;
+    border-bottom: 1px solid #5D7F75;
+}
+.login_pass_container {
+    position: relative;
+    margin-bottom: 26px;
+    width: 100%;
+    border-bottom: 1px solid #5D7F75;
+}
+.login_username_input, .login_pass_input {
+    font-size: 15px;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    background: transparent;
+    padding: 0 5px 0 5px;
+    height: 45px;
+}
+.username_label_login, .pass_label_login{
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: right; 
+    position: absolute;
+    top: 14px;
+    left: -105px;
+    width: 80px;
+    color: #5D7F75;
+}
+.register_container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-bottom: 30px;
+    width: 100%;
+}
+.login_button_container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.login_submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    min-width: 160px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 16px;
+    line-height: 1.2;
+    transition: all 0.4s;
+    background-color: rgb(31,45,34, .9);
+    color: #DEE5E5;
+}
+.login_submit:hover {
+    cursor: pointer;
+    background-color: #5D7F75;
+    color: #DEE5E5;
+}
+.register_link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 0 20px;
+    min-width: 160px;
+    height: 50px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.register_link:hover {
+    font-size: 15px;
+}
+.register_link::before {
+    color: #5D7F75;
+}
+.register_link:visited {
+    color: #5D7F75;
+}
