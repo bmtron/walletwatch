@@ -12,7 +12,8 @@ export default class ExpensesPage extends Component {
             itemName: '',
             itemPrice: '',
             frequency: '',
-            itemsArray: []
+            itemsArray: [],
+            error: null
         }
     }
     componentDidMount() {
@@ -37,7 +38,9 @@ export default class ExpensesPage extends Component {
             this.getUserDailyData()
         })
         .catch(error => {
-            console.error(error)
+            this.setState({
+                error: error
+            })
             this.props.history.push('/error')
         })
     }
@@ -56,13 +59,15 @@ export default class ExpensesPage extends Component {
             return res.json()
         })
         .then(resJson => {
-            console.log(resJson)
+            
             this.setState({
                 itemsArray: resJson
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     handleItemNameChange = (e) => {
@@ -82,7 +87,6 @@ export default class ExpensesPage extends Component {
     }
     handleDailyFormSubmit = (e) => {
         e.preventDefault();
-        console.log('click')
         let url = `${config.API_ENDPOINT}/daily_items`;
         let item = {
             item_name: this.state.itemName,
@@ -104,7 +108,6 @@ export default class ExpensesPage extends Component {
             return res.json()
         })
         .then(resJson => {
-            console.log(resJson)
             this.setState({
                 itemsArray: [...this.state.itemsArray, {item_name: resJson.item_name, price: resJson.price, frequency: resJson.frequency, id: resJson.id}],
                 itemName: '',
@@ -114,7 +117,9 @@ export default class ExpensesPage extends Component {
             this.context.dailyItems = [...this.context.dailyItems, {item_name: resJson.item_name, price: resJson.price, frequency: resJson.frequency, id: resJson.id}]
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     calculateWeeklyTotal(arr) {
@@ -147,7 +152,9 @@ export default class ExpensesPage extends Component {
             }
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     validateFormSubmit = () => {
@@ -165,7 +172,6 @@ export default class ExpensesPage extends Component {
         }
     }
     render(){
-        console.log(this.state.itemsArray)
         return (
             <div>
                  <nav>

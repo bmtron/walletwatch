@@ -19,7 +19,8 @@ export default class Homepage extends Component {
             dailyItemTotal: 0,
             incomeId: '',
             authError: false,
-            addItem: false
+            addItem: false,
+            error: null
         }
     }
     handleUpdateNetIncome = (e) => {
@@ -34,7 +35,7 @@ export default class Homepage extends Component {
             user_name: user,
             amount: this.state.netIncomeInput
         }
-        console.log(income)
+        
         let url = `${config.API_ENDPOINT}/net_income`
         fetch(url, {
             method: 'POST',
@@ -50,7 +51,7 @@ export default class Homepage extends Component {
             return res.json()
         })
         .then(resJson => {
-            console.log(resJson)
+           
             this.setState({
                 netIncome: resJson.amount,
                 netIncomeInput: '',
@@ -58,13 +59,14 @@ export default class Homepage extends Component {
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     submitUpdateNetIncome = (e) => {
         e.preventDefault()
         let id = this.state.incomeId;
-        console.log(id)
         let item = {
             amount: this.state.netIncomeInput
         }
@@ -88,7 +90,9 @@ export default class Homepage extends Component {
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     calculateExpenses(arr) {
@@ -97,7 +101,6 @@ export default class Homepage extends Component {
         for (let i = 0; i < arr.length; i++) {
             let strToInt = parseInt(arr[i].amount, 10)
             total = total + strToInt;
-            console.log(total)
         }
         return total;
     }
@@ -111,7 +114,6 @@ export default class Homepage extends Component {
     getUserData() {
         let user = sessionStorage.getItem('user')
         let url = `${config.API_ENDPOINT}/budget_items/${user}`
-        console.log(url)
         fetch(url, {
             method: 'GET',
             headers: {
@@ -132,7 +134,9 @@ export default class Homepage extends Component {
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
         let incomeUrl = `${config.API_ENDPOINT}/net_income/${user}`
         fetch(incomeUrl, {
@@ -148,13 +152,14 @@ export default class Homepage extends Component {
             return res.json()
         })
         .then(resJson => {
-            console.log(resJson)
             this.setState({
                 netIncome: resJson[0].amount,
                 incomeId: resJson[0].id
             })
         }).catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
         let dailyUrl = `${config.API_ENDPOINT}/daily_items/${sessionStorage.getItem('user')}`
         fetch(dailyUrl, {
@@ -170,13 +175,14 @@ export default class Homepage extends Component {
             return res.json()
         })
         .then(resJson => {
-            console.log(resJson)
             this.setState({
                 dailyItemTotal: this.calculateDailyItemsMonthlyTotal(resJson)
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     componentDidMount() {
@@ -201,12 +207,11 @@ export default class Homepage extends Component {
             this.getUserData()
         })
         .catch(error => {
-            console.error(error)
+            this.setState({
+                error: error
+            })
             this.props.history.push('/error')
         })
-        //this.getUserData()
-
-        
     }
     deleteMonthlyItem = (id) => {
         let arr = this.state.budgetItems
@@ -238,7 +243,9 @@ export default class Homepage extends Component {
             })
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     handleLogout = () => {
@@ -256,7 +263,6 @@ export default class Homepage extends Component {
         })
     }
     render() {
-        console.log(this.state.authError)
         return (
             <div>
                 {this.state.addItem ? <AddItem handleCancel={this.handleCancelItemAdd} /> : null}

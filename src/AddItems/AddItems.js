@@ -10,6 +10,7 @@ export default class AddItem extends Component {
         this.state = {
             name: '',
             price: '',
+            error: null
         }
     }
     handleNameChange = (e) => {
@@ -41,7 +42,9 @@ export default class AddItem extends Component {
             return res.json()
         })
         .catch(error => {
-            console.error(error)
+            this.setState({
+                error: error
+            })
             this.props.history.push('/error')
         })
     }
@@ -77,7 +80,9 @@ export default class AddItem extends Component {
             window.location.reload();  
         })
         .catch(e => {
-            console.log(e)
+            this.setState({
+                error: e
+            })
         })
     }
     render() {

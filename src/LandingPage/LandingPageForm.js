@@ -189,7 +189,6 @@ export default class LandingPage extends Component {
         })
     }
     render() {
-        console.log(this.state.validationMessages)
         return(
             <div>
                 <nav>
