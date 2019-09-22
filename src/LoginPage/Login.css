@@ -94,10 +94,16 @@ input {
 }
 .register_container {
     display: flex;
+    flex-direction: column;
     justify-content: left;
-    align-items: center;
+    align-items: left;
     padding-bottom: 30px;
     width: 100%;
+    font-size: 13px;
+}
+.register_container p {
+    text-align: left;
+    margin: 0px;
 }
 .login_button_container {
     display: flex;

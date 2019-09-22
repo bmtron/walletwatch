@@ -61,6 +61,9 @@ export default class LoginForm extends Component {
                             {this.state.error !== null ? <p className="error">{this.state.error}</p> : null}
                             <section className="register_container">
                                 <Link to='/' className="register_link">Register Account</Link>
+                                <p>Demo Account Info</p>
+                                <p>Username: test</p>
+                                <p>Password: Testpass!1</p>
                             </section>
                             <section className="login_button_container">
                                 <button className="login_submit" type="submit">Log In</button>
