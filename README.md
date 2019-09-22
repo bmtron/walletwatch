@@ -26,8 +26,7 @@ Here is where you'll keep track of all of those small things you buy throughout 
 
 
 
-Follow [this](https://github.com/bmtron/walletwatch_server) link to discover how the front end client operates.
-
+Follow [this](https://github.com/bmtron/walletwatch_server) link to discover how the back-end powers this app.
 ## Technology
 
 WalletWatch was created with a multitude of different technologies. The client was built using HTML5 and CSS for the skeleton and skin, respectively, and uses React.js to deliver the main functionality. The backend uses Node.js and Express, and uses PostgreSQL as the database.
