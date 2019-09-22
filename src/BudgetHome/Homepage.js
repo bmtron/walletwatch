@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import config from '../config';
 import BudgetContext from '../Utils/BudgetContext';
 import LogoutButton from '../Utils/LogoutButton';
+import AddItem from '../AddItems/AddItems';
 
 export default class Homepage extends Component {
     static contextType = BudgetContext;
@@ -18,6 +19,7 @@ export default class Homepage extends Component {
             dailyItemTotal: 0,
             incomeId: '',
             authError: false,
+            addItem: false
         }
     }
     handleUpdateNetIncome = (e) => {
@@ -243,58 +245,75 @@ export default class Homepage extends Component {
         sessionStorage.clear();
         this.props.history.push('/budget')
     }
+    handleAddItemClick = () => {
+        this.setState({
+            addItem: true
+        })
+    }
+    handleCancelItemAdd = () => {
+        this.setState({
+            addItem: false
+        })
+    }
     render() {
         console.log(this.state.authError)
         return (
             <div>
+                {this.state.addItem ? <AddItem handleCancel={this.handleCancelItemAdd} /> : null}
                <nav>
                     <h2>Wallet Watch</h2>
                     <section><LogoutButton handleLogout={this.handleLogout}/></section>
                 </nav>
-                <section className="income_display">
-                    <section className="net_income">
-                        <h2>Net Income</h2>
-                        <p>${this.state.netIncome}</p>
-                        <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
-                            <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
-                            {this.state.netIncome === 0 ? <button onClick={(e) => this.submitAddNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Add Net Income</button> 
-                                : <button onClick={(e) => this.submitUpdateNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Update Net Income</button>}
-                        </form>
+                <section className="homepage_wrapper">
+                    <section className="income_display">
+                        <section className="net_income">
+                            <h2>Income</h2>
+                            <p>${this.state.netIncome}</p>
+                            <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
+                                <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
+                                {this.state.netIncome === 0 ? <button onClick={(e) => this.submitAddNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Add Net Income</button> 
+                                    : <button onClick={(e) => this.submitUpdateNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Update Net Income</button>}
+                            </form>
+                        </section>
+                        <section>
+                            <h2>Total Daily Expenses per Month</h2>
+                            <p>${parseFloat(this.state.dailyItemTotal).toFixed(2)}</p>
+                        </section>
+                        <section className="disposable_income">
+                            <h2>Disposable Income</h2>
+                            <p>${parseFloat(this.state.netIncome - this.state.expenses).toFixed(2)}</p>
+                            <p>Disposable Income Less Daily Expenses</p>
+                            <p>${parseFloat(this.state.netIncome - this.state.expenses - this.state.dailyItemTotal).toFixed(2)}</p>
+                        </section>
                     </section>
-                    <section>
-                        <h2>Total Daily Expenses Cost per Month</h2>
-                        <p>${parseFloat(this.state.dailyItemTotal).toFixed(2)}</p>
+                    <section className="budget_items_wrapper">
+                        <section className="budget_items">
+                            <section className="cat_header">
+                                <h2>Categories</h2>
+                                <button onClick={() => this.handleAddItemClick()}>Add New Item</button>
+                                <Link to="/daily_expense"><button>Daily Expenditures</button></Link>
+                            </section>
+                                <table className="monthly_table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Budget Family</th>
+                                            <th>Monthly Budget</th>
+                                        </tr>
+                                    </tbody>
+                                {this.state.budgetItems == null ? null : this.state.budgetItems.map((item, index) => {
+                                    return <tbody key={item.id}>
+                                        <tr>
+                                            <td>
+                                                <button onClick={() => this.deleteMonthlyItem(item.id)}>X</button>
+                                                {item.category}
+                                            </td>
+                                            <td>${parseFloat(item.amount).toFixed(2)}</td>
+                                        </tr>
+                                    </tbody>
+                                })}
+                                </table>
+                        </section>
                     </section>
-                    <section className="disposable_income">
-                        <h2>Disposable Income</h2>
-                        <p>${parseFloat(this.state.netIncome - this.state.expenses).toFixed(2)}</p>
-                        <p>Disposable Income Less Daily Expenses</p>
-                        <p>${parseFloat(this.state.netIncome - this.state.expenses - this.state.dailyItemTotal).toFixed(2)}</p>
-                    </section>
-                </section>
-                <section className="cat_header"><h2>Categories</h2></section>
-                <Link to='/add_item'><button>Add New Item</button></Link>
-                <Link to="/daily_expense"><button>Daily Expenditures</button></Link>
-                <section className="budget_items">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Budget Family</th>
-                                <th>Monthly Budget</th>
-                            </tr>
-                        </tbody>
-                    {this.state.budgetItems == null ? null : this.state.budgetItems.map((item, index) => {
-                        return <tbody key={item.id}>
-                            <tr>
-                                <td>
-                                    <button onClick={() => this.deleteMonthlyItem(item.id)}>X</button>
-                                    {item.category}
-                                </td>
-                                <td>${parseFloat(item.amount).toFixed(2)}</td>
-                            </tr>
-                        </tbody>
-                    })}
-                    </table>
                 </section>
             </div>
         )

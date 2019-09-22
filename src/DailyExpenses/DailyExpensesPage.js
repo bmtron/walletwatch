@@ -213,7 +213,7 @@ export default class ExpensesPage extends Component {
                             </tbody>
                             {this.state.itemsArray.map((item, index) => {
                                 return <tbody key={item.id}><tr>
-                                    <td><button onClick={() => this.deleteDailyItem(item.id)}>Delete</button>{item.item_name}</td>
+                                    <td><button onClick={() => this.deleteDailyItem(item.id)}>X</button>{item.item_name}</td>
                                     <td>{item.frequency} days/wk</td>
                                     <td>${parseFloat(item.price).toFixed(2)}</td>
                                     <td>${(item.price * item.frequency).toFixed(2)}</td>

@@ -3,24 +3,22 @@
     box-sizing: border-box;
     
 }
-a {
+.home_link a {
     text-decoration: none;
     transition: all .3s;
 }
-a:visited {
+.home_link a:visited {
     color: #1F2D22;
 }
-a:before {
+.home_link a:before {
     color: #1F2D22;
 }
-a:hover {
+.home_link a:hover {
     font-size: 18px;
     color: rgb(54, 78, 59);
 }
 
-.home_transition {
-    height: 0px;
-}
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -145,16 +143,33 @@ nav {
     border-collapse: collapse;
     padding: 20px 20px 20px 20px;
 }
+.daily_item_table button:hover {
+    cursor: pointer;
+    
+}
 tr td {
     padding: 15px;
 }
 tr td:first-child {
     text-align: left;
-    
 }
 tbody:nth-child(even) {
     background-color: rgba(31, 45, 34, 0.781);
     color: white;
+}
+tbody:nth-child(odd) button {
+    background-color: white;
+    color: rgb(31,45,34);
+    border: 1px solid rgb(31,45,34);
+    margin-right: 10px;
+    border-radius: 5px;
+}
+tbody:nth-child(even) button{
+    background-color: white;
+    color: rgb(31,45,34);
+    border: none;
+    margin-right: 10px;
+    border-radius: 5px;
 }
 tbody:last-child {
     background-color: white;
@@ -176,5 +191,10 @@ tbody:last-child {
     }
     .daily_item_add_container {
         width: 800px;
+    }
+}
+@media screen and (max-width: 560px) {
+    .daily_item_table {
+        font-size: 12px;
     }
 }

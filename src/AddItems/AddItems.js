@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import BudgetContext from '../Utils/BudgetContext';
-import {Link} from 'react-router-dom';
 import config from '../config';
+import './AddItems.css';
+
 export default class AddItem extends Component {
     static contextType = BudgetContext;
     constructor(props) {
@@ -71,8 +72,9 @@ export default class AddItem extends Component {
                 name: '',
                 amount: ''
             })
-            console.log(resJson)
-            this.props.history.push('/budget')
+            this.context.budgetItems = [...this.context.budgetItems, newItem]
+            this.props.handleCancel();    
+            window.location.reload();  
         })
         .catch(e => {
             console.log(e)
@@ -81,20 +83,26 @@ export default class AddItem extends Component {
     render() {
         return (
             <div>
-                <nav>
-                    <h2>Wallet Watch</h2>
-                    <section><p>Login</p></section>
-                </nav>
-                <section className="add_item_form">
-                    <h2>Add New Budget Item</h2>
-                    <form onSubmit={(e) => this.handleAddItem(e)}>
-                        <label>Name</label>
-                        <input onChange={(e) => this.handleNameChange(e.target.value)}/>
-                        <label>Price</label>
-                        <input onChange={(e) => this.handlePriceChange(e.target.value)}/>
-                        <button type="submit" disabled={(this.state.name === '' || this.state.price === '')}>Add Item</button>
-                        <Link to='/budget'><button>Cancel</button></Link>
-                    </form>
+                <section className="add_item_wrapper">
+                    <section className="add_item_container">
+                       <section className="add_header">
+                        <h2 className="add_item_header">Add New Budget Item</h2>
+                       </section>
+                        <form className="add_item_form" onSubmit={(e) => this.handleAddItem(e)}>
+                            <section className="add_item_name_container">
+                                <label className="add_item_name_label">Name</label>
+                                <input className="add_item_name" onChange={(e) => this.handleNameChange(e.target.value)}/>
+                            </section>
+                            <section className="add_item_price_container">
+                                <label className="add_item_amount_label">Amount</label>
+                                <input className="add_item_amount" onChange={(e) => this.handlePriceChange(e.target.value)}/>
+                            </section>
+                            <section className="add_item_buttons_container">
+                                <button type="submit" disabled={(this.state.name === '' || this.state.price === '')} >Add Item</button>
+                                <button onClick={() => this.props.handleCancel()}>Cancel</button>
+                            </section>
+                        </form>
+                    </section>
                 </section>
             </div>
         )
