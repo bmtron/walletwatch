@@ -35,7 +35,6 @@ input {
     padding: 70px 15px 74px 15px;
     z-index: 1;
     position: relative;
-    
 }
 .login_form_title::before {
     content: "";

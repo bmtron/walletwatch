@@ -265,25 +265,27 @@ export default class Homepage extends Component {
                     <section><LogoutButton handleLogout={this.handleLogout}/></section>
                 </nav>
                 <section className="homepage_wrapper">
-                    <section className="income_display">
-                        <section className="net_income">
-                            <h2>Income</h2>
-                            <p>${this.state.netIncome}</p>
-                            <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
-                                <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
-                                {this.state.netIncome === 0 ? <button onClick={(e) => this.submitAddNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Add Net Income</button> 
-                                    : <button onClick={(e) => this.submitUpdateNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Update Net Income</button>}
-                            </form>
-                        </section>
-                        <section>
-                            <h2>Total Daily Expenses per Month</h2>
-                            <p>${parseFloat(this.state.dailyItemTotal).toFixed(2)}</p>
-                        </section>
-                        <section className="disposable_income">
-                            <h2>Disposable Income</h2>
-                            <p>${parseFloat(this.state.netIncome - this.state.expenses).toFixed(2)}</p>
-                            <p>Disposable Income Less Daily Expenses</p>
-                            <p>${parseFloat(this.state.netIncome - this.state.expenses - this.state.dailyItemTotal).toFixed(2)}</p>
+                    <section className="income_display_wrapper">
+                        <section className="income_display">
+                            <section className="net_income">
+                                <p className="income_header">Income</p>
+                                <p>${this.state.netIncome}</p>
+                                <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
+                                    <section className="update_income_container">
+                                        <input type="number" onChange={(e) => this.handleUpdateNetIncome(e.target.value)} value={this.state.netIncomeInput}/>
+                                    </section>
+                                    {this.state.netIncome === 0 ? <button onClick={(e) => this.submitAddNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Add Net Income</button> 
+                                        : <button onClick={(e) => this.submitUpdateNetIncome(e)}disabled={this.state.netIncomeInput === ''}>Update Income</button>}
+                                </form>
+                            </section>
+                            <section>
+                                <p className="income_header">Total Daily Expenses</p>
+                                <p>${parseFloat(this.state.dailyItemTotal).toFixed(2)}</p>
+                            </section>
+                            <section className="disposable_income">
+                                <p className="income_header">Disposable Income</p>
+                                <p>${parseFloat(this.state.netIncome - this.state.expenses - this.state.dailyItemTotal).toFixed(2)}</p>
+                            </section>
                         </section>
                     </section>
                     <section className="budget_items_wrapper">

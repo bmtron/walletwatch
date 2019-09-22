@@ -197,33 +197,29 @@ export default class LandingPage extends Component {
                     <section><Link to='/login'>Login</Link></section>
                 </nav>
                 <section className="hero">
+                  <section className="hero_title">
                     <h1>WalletWatch</h1>
                     <p>Keeping daily spending low and savings high</p>
+                  </section>
                 </section>
                 <section className="main_description">
-                    <p>Placeholder image of budget app</p>
+                    <img src="https://i.gyazo.com/2b0dfe9525516e9e343b18c2658a25d6.png" alt="A screenshot of the walletwatch homepage" />
                     <p>WalletWatch is a budgeting tool that not only keeps track of your monthly "big ticket" items, but also allows you to keep track 
-                        of your daily spending. You may not think much of going out for that $5 morning coffee and croissant at your local breakfast joint, 
+                        of your daily spending.</p><p>You may not think much of going out for that $5 morning coffee and croissant at your local breakfast joint, 
                         but how much are you really spending? WalletWatch helps you to see how much of an impact small items, like coffee, or cigarettes, 
                         can have on your bank account.</p>
                 </section>
                 <section className="budget_description">
                     <h2>Set Your Budget</h2>
-                    <p>Placeholder for add budget items</p>
+                    <img src="https://i.gyazo.com/bcd0bae73a7683e9e43cbd5284b4e82d.png" alt="A screenshot of a user updating their income on the walletwatch homepage."></img>
                     <p>Start off by adding your net income, followed by your big monthly expenditures, such as rent, groceries, insurance, and gas.</p>
                 </section>
                 <section className="daily_impact">
                     <h2>Daily Impact</h2>
-                    <p>Placeholder for daily items interface</p>
+                    <img src="https://i.gyazo.com/af4ffdc96fd27553595912405ee19265.png" alt="A screenshot of the daily items interface"/>
                     <p>Once your big items are set, start adding in single items (like coffe, or candy bars) that you find yourself spending on a daily basis. 
                         The app will then calculate what your projected monthly expenses will look like for each item, giving you a better idea of what that 
                         single Starbucks coffee is really costing you.</p>
-                </section>
-                <section className="flexibility">
-                    <h2>Flexibility</h2>
-                    <p>Placeholder for updating budget items</p>
-                    <p>Budgets should be flexible, and WalletWatch knows this. At any time, feel free to make any necessary adjustments to your budget items, 
-                        net income, and daily spending, keeping WalletWatch up to date with whats going on in your finances.</p>
                 </section>
                 <section className="signup">
                     <h2>Ready to start saving?</h2>
