@@ -170,62 +170,69 @@ export default class ExpensesPage extends Component {
             <div>
                  <nav>
                     <h2>Wallet Watch</h2>
-                    <Link to='/budget'><section>Home</section></Link>
+                    <section className="home_link"><Link to='/budget'>Home</Link></section>
                 </nav>
-                <section className="header">
-                    <h2>Daily Expenses</h2>
-                    <p>Use this page to keep track of your daily "one-offs", things like eating lunch out instead of bringing your own, or an energy drink
-                        or coffee in the morning, to see how these items individually impact your monthly budget.
-                    </p>
+                <section className="not_nav_content">
+                   
+                   <section className="daily_item_add_container">
+                        <section className="header">
+                            <h2>Daily Expenses</h2>
+                            <p>Use this page to keep track of your daily "one-offs", things like eating lunch out instead of bringing your own, or an energy drink
+                                or coffee in the morning, to see how these items individually impact your monthly budget.
+                            </p>
+                        </section>
+                        <form className="daily_item_add" onSubmit={(e) => this.handleDailyFormSubmit(e)}>
+                            <section className="daily_name_container">
+                                    <label htmlFor="daily_item" className="daily_item_name_label">Item Name</label>
+                                    <input className="daily_item" id="daily_item" type="text" value={this.state.itemName} onChange={(e) => this.handleItemNameChange(e.target.value)}/>
+                            </section>
+                            <section className="daily_price_container">
+                                    <label htmlFor="daily_price" className="daily_item_price_label">Price</label>
+                                    <input className="daily_price" id="daily_price" step="any" type="number" value={this.state.itemPrice} onChange={(e) => this.handleItemPriceChange(e.target.value)}/>
+                            </section>
+                            <section className="daily_frequency_container">
+                                <label className="daily_frequency_label" htmlFor="frequency">Times Purchased Per Week</label>
+                                <input onChange={(e) => this.handleFrequencyChange(e.target.value)} value={this.state.frequency} name="frequency" id="frequency" className="daily_frequency" type="number">
+                                </input>
+                            </section>
+                            <section className="add_daily_item_submit_container">
+                                <button type="submit" className="daily_button_submit" disabled={!this.validateFormSubmit()}>Add Item</button>
+                            </section>
+                        </form>
+                   </section>
+                    <section className="table_container">
+                        <table className="daily_item_table">
+                            <tbody className="table_headers">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Frequency</th>
+                                    <th>Price</th>
+                                    <th>Weekly Cost</th>
+                                    <th>Monthly Cost</th>
+                                </tr>
+                            </tbody>
+                            {this.state.itemsArray.map((item, index) => {
+                                return <tbody key={item.id}><tr>
+                                    <td><button onClick={() => this.deleteDailyItem(item.id)}>Delete</button>{item.item_name}</td>
+                                    <td>{item.frequency} days/wk</td>
+                                    <td>${parseFloat(item.price).toFixed(2)}</td>
+                                    <td>${(item.price * item.frequency).toFixed(2)}</td>
+                                    <td>${(item.price * item.frequency * 4).toFixed(2)}</td>
+                                </tr>
+                                </tbody>
+                            })}
+                            {!this.state.itemsArray.length ? null : <tbody className="table_total">
+                                <tr>
+                                    <td>Totals</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>${(this.calculateWeeklyTotal(this.state.itemsArray)).toFixed(2)}</td>
+                                    <td>${(this.calculateWeeklyTotal(this.state.itemsArray) * 4).toFixed(2)}</td>
+                                </tr>
+                            </tbody>}
+                        </table>
+                    </section>
                 </section>
-                <form className="daily_item_add" onSubmit={(e) => this.handleDailyFormSubmit(e)}>
-                    <label htmlFor="daily_item">Item Name</label>
-                    <input className="daily_item" id="daily_item" type="text" value={this.state.itemName} onChange={(e) => this.handleItemNameChange(e.target.value)}/>
-                    <label htmlFor="daily_price">Price</label>
-                    <input className="daily_price" id="daily_price" step="any" type="number" value={this.state.itemPrice} onChange={(e) => this.handleItemPriceChange(e.target.value)}/>
-                    <label htmlFor="frequency">Times Purchased Per Week</label>
-                    <select onChange={(e) => this.handleFrequencyChange(e.target.value)}>
-                        <option value={''}>--Select a number--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                    </select>
-                    <button type="submit" disabled={!this.validateFormSubmit()}>+</button>
-                </form>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Name</th>
-                            <th>Frequency</th>
-                            <th>Price</th>
-                            <th>Weekly Cost</th>
-                            <th>Monthly Cost</th>
-                        </tr>
-                    </tbody>
-                    {this.state.itemsArray.map((item, index) => {
-                        return <tbody key={item.id}><tr>
-                            <td><button onClick={() => this.deleteDailyItem(item.id)}>Delete</button>{item.item_name}</td>
-                            <td>{item.frequency} days/wk</td>
-                            <td>${parseFloat(item.price).toFixed(2)}</td>
-                            <td>${(item.price * item.frequency).toFixed(2)}</td>
-                            <td>${(item.price * item.frequency * 4).toFixed(2)}</td>
-                        </tr>
-                        </tbody>
-                    })}
-                    {!this.state.itemsArray.length ? null : <tbody>
-                        <tr>
-                            <th>Totals</th>
-                            <th></th>
-                            <th></th>
-                            <th>${(this.calculateWeeklyTotal(this.state.itemsArray)).toFixed(2)}</th>
-                            <th>${(this.calculateWeeklyTotal(this.state.itemsArray) * 4).toFixed(2)}</th>
-                        </tr>
-                    </tbody>}
-                </table>
             </div>
         )
     }

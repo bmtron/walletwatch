@@ -45,7 +45,6 @@ export default class LoginForm extends Component {
         return (
             <div className="Login_form">
                 <section className="login_page_wrap">
-
                     <section className="login_form_container">
                         <section className="login_form_title">
                             <p>Log in to WalletWatch</p>

@@ -144,3 +144,9 @@ input {
 .register_link:visited {
     color: #5D7F75;
 }
+
+@media screen and (max-width: 550px) {
+    .login_form {
+        padding-left: 120px;
+    }
+}
