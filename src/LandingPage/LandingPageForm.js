@@ -193,7 +193,7 @@ export default class LandingPage extends Component {
         return(
             <div>
                 <nav>
-                    <h2>Wallet Watch</h2>
+                    <h2>WalletWatch</h2>
                     <section><Link to='/login'>Login</Link></section>
                 </nav>
                 <section className="hero">

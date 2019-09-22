@@ -261,7 +261,7 @@ export default class Homepage extends Component {
             <div>
                 {this.state.addItem ? <AddItem handleCancel={this.handleCancelItemAdd} /> : null}
                <nav>
-                    <h2>Wallet Watch</h2>
+                    <h2>WalletWatch</h2>
                     <section><LogoutButton handleLogout={this.handleLogout}/></section>
                 </nav>
                 <section className="homepage_wrapper">

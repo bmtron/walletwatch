@@ -169,7 +169,7 @@ export default class ExpensesPage extends Component {
         return (
             <div>
                  <nav>
-                    <h2>Wallet Watch</h2>
+                    <h2>WalletWatch</h2>
                     <section className="home_link"><Link to='/budget'>Home</Link></section>
                 </nav>
                 <section className="not_nav_content">
