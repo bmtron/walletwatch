@@ -135,6 +135,7 @@ nav {
     padding: 10px;
     margin-top: 25px;
     width: 670px;
+    color: rgb(31,45,34, .9);
 }
 .daily_item_table {
     width: 100%;
@@ -150,10 +151,12 @@ tr td:first-child {
     
 }
 tbody:nth-child(even) {
-    background-color: #DEE5E5
+    background-color: rgba(31, 45, 34, 0.781);
+    color: white;
 }
 tbody:last-child {
     background-color: white;
+    color: rgb(31,45,34)
 }
 @media screen and (min-width: 1370px) {
     .not_nav_content {
