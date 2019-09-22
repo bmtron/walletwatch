@@ -61,7 +61,7 @@ nav section a:visited {
     margin-bottom: 0px;
 }
 .main_description {
-   min-height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -107,11 +107,70 @@ nav section a:visited {
 }
 .signup_form {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 43px 88px 93px 190px;
+    width: 50%;
+    background-color: white;
+}
+.first_name_container, .last_name_container, .user_container, .Password_container, .repeatPass {
+    position: relative;
+    margin-bottom: 26px;
+    width: 100%;
+    border-bottom: 1px solid #5D7F75;
 }
 
+.signup_form input {
+    font-size: 15px;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    background: transparent;
+    padding: 0 5px 0 5px;
+    height: 45px;
+}
+.signup_form label {
+    font-size: 15px;
+    line-height: 1.2;
+    text-align: right; 
+    position: absolute;
+    top: 14px;
+    left: -105px;
+    width: 80px;
+    color: #5D7F75;
+}
 .signup button {
-    width: 20%;
+    background-color: white;
+    color: rgb(31,45,34);
+    border: 1px solid rgb(31,45,34);
+    margin-right: 10px;
+    border-radius: 5px;
+    transition: all .4s;
+    font-size: 22px;
+}
+.signup button:hover {
+    cursor: pointer;
+    background-color: rgb(31,45,34);
+    color: white;
+}
+@media screen and (min-width: 601px) and (max-width:1100px) {
+    .signup_form {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .main_description, .budget_description, .daily_impact, .signup {
+        width: 100%;
+    }
+    .main_description img, .budget_description img, .daily_impact img, .signup img {
+        width: 100%;
+    }
+    .main_description p, .budget_description p, .daily_impact p, .signup p {
+        width: 90%;
+        text-align: left;
+    }
+    .signup_form {
+        width: 100%;
+        padding-left: 140px;
+    }
 }
