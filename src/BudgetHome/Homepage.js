@@ -267,14 +267,14 @@ export default class Homepage extends Component {
             <div>
                 {this.state.addItem ? <AddItem className="add_monthly_item_popup" handleCancel={this.handleCancelItemAdd} /> : null}
                <nav>
-                    <h2>WalletWatch</h2>
+                   <h2>WalletWatch</h2>
                     <section><LogoutButton handleLogout={this.handleLogout}/></section>
                 </nav>
                 <section className="homepage_wrapper">
                     <section className="income_display_wrapper">
                         <section className="income_display">
                             <section className="net_income">
-                                <p className="income_header">Income</p>
+                                <p className="income_header">{window.sessionStorage.user}'s Income</p>
                                 <p>${this.state.netIncome}</p>
                                 <form className="update_net_income" onSubmit={(e) => this.submitUpdateNetIncome(e)}>
                                     <section className="update_income_container">
