@@ -100,7 +100,7 @@ export default class AddItem extends Component {
                             </section>
                             <section className="add_item_price_container">
                                 <label className="add_item_amount_label">Amount</label>
-                                <input className="add_item_amount" onChange={(e) => this.handlePriceChange(e.target.value)}/>
+                                <input className="add_item_amount" onChange={(e) => this.handlePriceChange(e.target.value)} type="number"/>
                             </section>
                             <section className="add_item_buttons_container">
                                 <button type="submit" disabled={(this.state.name === '' || this.state.price === '')} >Add Item</button>

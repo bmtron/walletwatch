@@ -265,7 +265,7 @@ export default class Homepage extends Component {
     render() {
         return (
             <div>
-                {this.state.addItem ? <AddItem handleCancel={this.handleCancelItemAdd} /> : null}
+                {this.state.addItem ? <AddItem className="add_monthly_item_popup" handleCancel={this.handleCancelItemAdd} /> : null}
                <nav>
                     <h2>WalletWatch</h2>
                     <section><LogoutButton handleLogout={this.handleLogout}/></section>
