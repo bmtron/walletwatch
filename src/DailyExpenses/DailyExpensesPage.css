@@ -169,7 +169,7 @@ tbody:nth-child(even) button{
     border-radius: 5px;
     transition: all 0.4s;
 }
-tbody:last-child {
+.daily_item_table tbody:last-child {
     background-color: white;
     color: rgb(31,45,34)
 }
