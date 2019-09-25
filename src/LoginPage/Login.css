@@ -155,3 +155,21 @@ input {
         padding-left: 120px;
     }
 }
+@media screen and (max-width: 370px) {
+    .login_form {
+        padding: 43px 50px 93px 100px;
+    }
+    .pass_label_login, .username_label_login {
+        left: -95px;
+    }
+    .login_submit {
+        position: relative;
+        left: -20px;
+    }
+    .register_link {
+        padding-left: 0px;
+        text-align: left;
+        position: relative;
+        left: -15px;
+    }
+}

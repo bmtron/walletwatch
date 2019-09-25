@@ -96,6 +96,23 @@ nav section a:visited {
 .daily_impact p  {
     width: 50%;
 }
+.budget_description p {
+    width: 50%;
+}
+.dashboard_info {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+.dashboard_info img {
+    width: 70%;
+}
+.dashboard_info p {
+    width: 50%;
+}
 .signup {
     background-color: white;
     padding-bottom: 50px;
@@ -172,5 +189,27 @@ nav section a:visited {
     .signup_form {
         width: 100%;
         padding-left: 140px;
+    }
+}
+@media screen and (max-width: 375px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+    }
+    nav h2 {
+        margin-bottom: 5px;
+    }
+    nav section {
+        position: static;
+        margin: 0px;
+    }
+    nav p {
+        margin: 0px;
+    }
+    .signup_form label {
+        font-size: 13px;
+    }
+    .signup_form {
+        padding: 43px 40px 93px 100px;
     }
 }

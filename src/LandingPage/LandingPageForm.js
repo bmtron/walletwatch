@@ -211,14 +211,20 @@ export default class LandingPage extends Component {
                 <section className="budget_description">
                     <h2>Set Your Budget</h2>
                     <img src="https://i.gyazo.com/bcd0bae73a7683e9e43cbd5284b4e82d.png" alt="A screenshot of a user updating their income on the walletwatch homepage."></img>
-                    <p>Start off by adding your net income, followed by your big monthly expenditures, such as rent, groceries, insurance, and gas.</p>
+                    <p>Start off by adding your net income, followed by your big monthly expenditures, such as rent, groceries, insurance, and gas. You can also update your income at any time, simply by entering a new amount and hitting the "Update Income" button.</p>
                 </section>
                 <section className="daily_impact">
                     <h2>Daily Impact</h2>
                     <img src="https://i.gyazo.com/af4ffdc96fd27553595912405ee19265.png" alt="A screenshot of the daily items interface"/>
-                    <p>Once your big items are set, start adding in single items (like coffe, or candy bars) that you find yourself spending on a daily basis. 
+                    <p>Once your big items are set, start adding in single items (like coffee, or candy bars) that you find yourself spending on a daily basis. 
                         The app will then calculate what your projected monthly expenses will look like for each item, giving you a better idea of what that 
                         single Starbucks coffee is really costing you.</p>
+                </section>
+                <section className="dashboard_info">
+                    <h2>Financial Summary</h2>
+                    <img src="https://i.gyazo.com/475a91240f59d13052cdf9716b82ae8d.png" alt="A screenshot of the user's monthly summary at the top of the homepage."></img>
+                    <p>And finally, keep track of the impact all of your daily and monthly expenses at the top of the home page. This summary gives you quick access to the monthly total of your daily expenses, and shows you your disposable (remaining) income that you have. Use this tool to reduce your daily expenses, and watch your leftover cash and savings soar!</p>
+                    <p>Ready to get started? Use the form at the bottom of this page to start tracking your spending now!</p>
                 </section>
                 <section className="signup">
                     <h2>Ready to start saving?</h2>

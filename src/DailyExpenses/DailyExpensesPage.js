@@ -230,8 +230,8 @@ export default class ExpensesPage extends Component {
                             {!this.state.itemsArray.length ? null : <tbody className="table_total">
                                 <tr>
                                     <td>Totals</td>
-                                    <td></td>
-                                    <td></td>
+                                    <td className="smallscreen"></td>
+                                    <td className="smallscreen"></td>
                                     <td>${(this.calculateWeeklyTotal(this.state.itemsArray)).toFixed(2)}</td>
                                     <td>${(this.calculateWeeklyTotal(this.state.itemsArray) * 4).toFixed(2)}</td>
                                 </tr>

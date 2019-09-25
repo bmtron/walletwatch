@@ -138,3 +138,35 @@
         margin-top: 20px;
     }
 }
+@media screen and (max-width: 400px) {
+    .monthly_table table, .monthly_table th, .monthly_table tbody, .monthly_table th, .monthly_table td, .monthly_table tr { 
+        display: block;
+    }
+    .monthly_table tbody tr td:first-child {
+        text-align: center;
+    }
+    .monthly_table td:nth-of-type(2):before { content: "Monthly Budget"; }
+    .monthly_table tbody th{ 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+    }
+    .monthly_table td { 
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+        text-align: right;
+        padding: 5px;
+	}
+	.monthly_table td:before { 
+		position: absolute;
+		top: 5px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+    }
+    .monthly_table tr td:first-child {
+        font-size: 16px;
+    }
+}

@@ -92,3 +92,14 @@
     color: white;
     cursor: pointer;
 }
+@media screen and (max-width: 370px) {
+    .add_item_form {
+        padding: 43px 40px 93px 100px;
+    }
+   .add_item_buttons_container button{
+       font-size: 12px;
+   }
+    .add_item_header {
+        font-size: 1.2em;
+    }
+}

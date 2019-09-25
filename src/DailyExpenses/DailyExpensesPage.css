@@ -196,3 +196,70 @@ tbody:nth-child(even) button{
         font-size: 12px;
     }
 }
+@media screen and (max-width: 440px) {
+    .header p {
+        font-size: 14px;
+    }
+    .daily_item_add {
+        padding: 10px 50px 40px 110px;
+    }
+    .daily_item_add label {
+        font-size: 14px;
+    }
+    .daily_item_add input {
+        text-align: center;
+    }
+    .daily_item_table table, .daily_item_table th, .daily_item_table tbody, .daily_item_table th, .daily_item_table td, .daily_item_table tr { 
+		display: block; 
+    }
+    .daily_item_table tr td:first-child {
+        text-align: center;
+    }
+    .daily_item_table tbody th{ 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+    }
+    .daily_item_table td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+        padding-left: 50%; 
+        text-align: right;
+	}
+	.daily_item_table td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+    }
+    .daily_item_table tr td:first-child {
+        font-size: 16px;
+    }
+	.daily_item_table td:nth-of-type(2):before { content: "Frequency"; }
+	.daily_item_table td:nth-of-type(3):before { content: "Price"; }
+    .daily_item_table td:nth-of-type(4):before { content: "Weekly Cost"; }
+    .daily_item_table td:nth-of-type(5):before { content: "Monthly Cost"; }
+    .daily_item_table td, th, tr {
+        font-size: 14px;
+        padding: 5px;
+    }
+    .smallscreen {
+        position: absolute;
+		top: -9999px;
+		left: -9999px;
+    }
+    .daily_item_table tbody:last-child td:nth-of-type(2):before { content: ''}
+    .daily_item_table tbody:last-child td:nth-of-type(3):before { content: ''}
+    .daily_item_table tbody:last-child td:nth-of-type(4):before { content: 'Weekly Total'}
+    .daily_item_table tbody:last-child td:nth-of-type(5):before { content: 'Monthly Total'}
+    .daily_item_table tbody:last-child {
+        background-color: white;
+        color: rgb(31,45,34)
+    }
+}
