@@ -182,7 +182,7 @@ nav section a:visited {
     .main_description img, .budget_description img, .daily_impact img, .signup img {
         width: 100%;
     }
-    .main_description p, .budget_description p, .daily_impact p, .signup p {
+    .main_description p, .budget_description p, .daily_impact p, .signup p, .dashboard_info p {
         width: 90%;
         text-align: left;
     }
