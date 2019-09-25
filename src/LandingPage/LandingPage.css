@@ -176,10 +176,10 @@ nav section a:visited {
     }
 }
 @media screen and (max-width: 600px) {
-    .main_description, .budget_description, .daily_impact, .signup {
+    .main_description, .budget_description, .daily_impact, .signup, .dashboard_info {
         width: 100%;
     }
-    .main_description img, .budget_description img, .daily_impact img, .signup img {
+    .main_description img, .budget_description img, .daily_impact img, .signup img, .dashboard_info img {
         width: 100%;
     }
     .main_description p, .budget_description p, .daily_impact p, .signup p, .dashboard_info p {
