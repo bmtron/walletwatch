@@ -222,7 +222,7 @@ export default class LandingPage extends Component {
                 </section>
                 <section className="dashboard_info">
                     <h2>Financial Summary</h2>
-                    <img src="https://i.gyazo.com/475a91240f59d13052cdf9716b82ae8d.png" alt="A screenshot of the user's monthly summary at the top of the homepage."></img>
+                    <img src="https://i.gyazo.com/92907d8c44f4c77f566e655e00c980f6.png" alt="A screenshot of the user's monthly summary at the top of the homepage."></img>
                     <p>And finally, keep track of the impact all of your daily and monthly expenses at the top of the home page. This summary gives you quick access to the monthly total of your daily expenses, and shows you your disposable (remaining) income that you have. Use this tool to reduce your daily expenses, and watch your leftover cash and savings soar!</p>
                     <p>Ready to get started? Use the form at the bottom of this page to start tracking your spending now!</p>
                 </section>
