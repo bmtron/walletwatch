@@ -1,4 +1,4 @@
 export default {
-    API_ENDPOINT: 'https://ancient-wildwood-78146.herokuapp.com/api',
+    API_ENDPOINT: 'https://desolate-refuge-07043.herokuapp.com/api',
     TOKEN_KEY: 'walletwatch-client-auth-token'
 }
