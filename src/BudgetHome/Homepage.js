@@ -5,6 +5,9 @@ import config from '../config';
 import BudgetContext from '../Utils/BudgetContext';
 import LogoutButton from '../Utils/LogoutButton';
 import AddItem from '../AddItems/AddItems';
+/*
+    This is the home page displayed to each user.
+*/
 
 export default class Homepage extends Component {
     static contextType = BudgetContext;
